@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mm/bloc/counterbloc.dart';
+import 'package:mm/ui/routes/app_router.dart';
+import 'package:mm/ui/routes/routes.dart';
 
-import 'ui/screens/home.dart';
+void main() => runApp(App());
 
-void main() => runApp(MyApp());
+class App extends StatefulWidget {
+  @override
+  State createState(){
+    return AppState();
+  }
+}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class AppState extends State<App> {  
+  AppState(){
+    Routes.configure(AppRouter.router);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,13 +23,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<CounterBloc>(
-        create: (context) => CounterBloc(),
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
-      )
-      
+      onGenerateRoute: AppRouter.router.generator,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
+
 
 

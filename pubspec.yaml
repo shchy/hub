@@ -26,10 +26,16 @@ dependencies:
   bloc: ^2.0.0
   flutter_bloc: ^2.0.0
   meta: ^1.1.6
+  fluro:
+    git: git://github.com/theyakka/fluro.git
+  inject:
+    path: ../inject.dart/package/inject
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  inject_generator:
+    path: ../inject.dart/package/inject_generator
 
 
 # For information on the generic Dart part of this file, see the

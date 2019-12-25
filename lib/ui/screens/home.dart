@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mm/bloc/counterbloc.dart';
 
+class Home extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<CounterBloc>(
+        create: (context) => CounterBloc(),
+        child: MyHomePage(title: 'Flutter Demo Home Page'),
+      );
+  }
+}
+
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
   @override
   Widget build(BuildContext context) {
+    //ignore: close_sinks
     final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);    
 
     return Scaffold(
