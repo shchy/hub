@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mm/bloc/counterbloc.dart';
-import 'package:mm/routes/app_router.dart';
+import 'package:mm/app.dart';
 import 'package:mm/routes/routes.dart';
+import 'package:provider/provider.dart';
 
 class CounterCommands extends StatelessWidget {
   @override
@@ -10,6 +11,7 @@ class CounterCommands extends StatelessWidget {
     // ignore: close_sinks
     final CounterBlocInterface counterBloc =
         BlocProvider.of<CounterBlocInterface>(context);
+    final Application app = Provider.of<Application>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -41,7 +43,7 @@ class CounterCommands extends StatelessWidget {
             heroTag: 'test',
             child: Icon(Icons.router),
             onPressed: () {
-              AppRouter.router.navigateTo(context, Routes.test);
+              app.router.navigateTo(context, Routes.test);
             },
           ),
         ),

@@ -5,8 +5,11 @@ import 'handlers.dart';
 class Routes {
   static String root = "/";
   static String test = "/test";
+  static String login = "/login";
 
   static void configure(Router router) {
+    router.define(login,
+        handler: loginHandler, transitionType: TransitionType.cupertino);
     router.define(root,
         handler: rootHandler, transitionType: TransitionType.cupertino);
     router.define(test,
