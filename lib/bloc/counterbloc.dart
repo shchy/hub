@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+
+abstract class CounterBlocInterface extends Bloc<CounterEvent, int>{
+}
 
 enum CounterEvent { increment, decrement }
 
-class CounterBloc extends Bloc<CounterEvent, int> {
+class CounterBloc extends CounterBlocInterface {
   @override
   int get initialState => 0;
 

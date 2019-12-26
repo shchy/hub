@@ -5,10 +5,7 @@ import 'package:mm/bloc/counterbloc.dart';
 class Home extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterBloc>(
-        create: (context) => CounterBloc(),
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
-      );
+    return MyHomePage(title: 'Flutter Demo Home Page');
   }
 }
 
@@ -18,14 +15,14 @@ class MyHomePage extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
-    //ignore: close_sinks
-    final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);    
+    // ignore: close_sinks
+    final CounterBlocInterface counterBloc = BlocProvider.of<CounterBlocInterface>(context);    
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
-      body: BlocBuilder<CounterBloc,int>(
+      body: BlocBuilder<CounterBlocInterface,int>(
         builder: (context,count){
           return Center(
             child: Column(
