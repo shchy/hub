@@ -7,6 +7,7 @@ class Test extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('test'),
+        elevation: 0.0,
       ),
       body: Text('test'),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mm/screens/home/counter_commands.dart';
-import 'package:mm/screens/home/counter_panel.dart';
+import 'package:mm/screens/home/counter_content.dart';
 
 class Home extends StatelessWidget {
   Home({Key key}) : super(key: key);
@@ -11,8 +11,9 @@ class Home extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
+          elevation: 0.0,
         ),
-        body: CounterPanel(),
+        body: CounterContent(),
         floatingActionButton: CounterCommands());
   }
 }
