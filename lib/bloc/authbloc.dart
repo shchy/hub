@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
-import 'package:jaguar_jwt/jaguar_jwt.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:mm/app.dart';
-import 'package:mm/models/user.dart';
 import 'package:mm/resources/api_interface.dart';
 
 abstract class AuthEvent {}
@@ -17,6 +14,7 @@ class LoginEvent implements AuthEvent {
 class LogoutEvent implements AuthEvent {}
 
 class AuthBloc extends Bloc<AuthEvent, bool> {
+  final LocalStorage storage = new LocalStorage('auth');
   ApiInterface _api;
   Application _app;
   AuthBloc(this._api, this._app);
@@ -33,17 +31,14 @@ class AuthBloc extends Bloc<AuthEvent, bool> {
         if (token == null) {
           yield false;
         } else {
-          var payload = token.split('.')[1];
-          var jwt = B64urlEncRfc7515.decodeUtf8(payload);
-          var map = jsonDecode(jwt);
-          _app.me = User(id: map['sub'], name: map['iss']);
           _app.token = token;
+          await storage.setItem('token', token);
           yield true;
         }
         break;
       case LogoutEvent:
-        _app.token = null;
-        _app.me = null;
+        _app.clear();
+        await storage.deleteItem('token');
         yield false;
         break;
     }

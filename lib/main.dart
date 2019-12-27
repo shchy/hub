@@ -4,8 +4,9 @@ import 'package:mm/di/bootstrap.dart';
 import 'package:mm/themes/theme.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(Bootstrap().provide(App()));
+void main() async {
+  var boot = await Bootstrap().provide(App());
+  runApp(boot);
 }
 
 class App extends StatelessWidget {

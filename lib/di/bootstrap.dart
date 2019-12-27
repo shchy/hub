@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:mm/app.dart';
 import 'package:mm/bloc/authbloc.dart';
 
@@ -11,12 +12,16 @@ import 'package:mm/routes/routes.dart';
 import 'package:provider/provider.dart';
 
 class Bootstrap {
-  Widget provide(Widget root) {
+  Future<Widget> provide(Widget root) async {
     var router = Router();
     Routes.configure(router);
 
-    var app = Application(router);
     ApiInterface api = DebugApi();
+
+    var app = Application(router);
+    final LocalStorage storage = new LocalStorage('auth');
+    await storage.ready;
+    app.token = storage.getItem('token');
 
     return MultiProvider(
       providers: [
