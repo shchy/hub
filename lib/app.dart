@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:fluro/fluro.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 
 import 'models/user.dart';
@@ -9,8 +8,8 @@ class Application {
   String _token;
   User _me;
 
-  Application(this.router);
-  Router router;
+  Application();
+
   User get me => _me;
   String get token => _token;
 

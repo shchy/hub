@@ -18,7 +18,7 @@ class Bootstrap {
 
     ApiInterface api = DebugApi();
 
-    var app = Application(router);
+    var app = Application();
     final LocalStorage storage = new LocalStorage('auth');
     await storage.ready;
     app.token = storage.getItem('token');
@@ -28,6 +28,7 @@ class Bootstrap {
         Provider<Application>(
           create: (context) => app,
         ),
+        Provider<Router>(create: (context) => router),
         BlocProvider<CounterBlocInterface>(create: (context) => CounterBloc()),
         BlocProvider<AuthBloc>(create: (context) => AuthBloc(api, app)),
         Provider<ApiInterface>(

@@ -1,5 +1,5 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:mm/app.dart';
 import 'package:mm/bloc/authbloc.dart';
 import 'package:mm/routes/routes.dart';
 import 'package:provider/provider.dart';
@@ -26,14 +26,18 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    Application _app = Provider.of<Application>(context);
+    Router _router = Provider.of<Router>(context);
     // ignore: close_sinks
     AuthBloc _auth = Provider.of<AuthBloc>(context);
 
     _auth.listen((isLogin) {
       if (!isLogin) return;
-      _app.router.navigateTo(context, Routes.root);
+      _router.navigateTo(context, Routes.root);
     });
+
+    var login = () {
+      _auth.add(LoginEvent(_id.text, _password.text));
+    };
 
     return Scaffold(
       body: Center(
@@ -48,6 +52,7 @@ class LoginState extends State<Login> {
                   controller: _id,
                   decoration:
                       InputDecoration(labelText: "ID", hintText: 'Enter a ID'),
+                  onSubmitted: (_) => login(),
                 ),
               ),
               Container(
@@ -56,13 +61,12 @@ class LoginState extends State<Login> {
                   decoration: InputDecoration(
                       labelText: "Password", hintText: 'Enter a password'),
                   obscureText: true,
+                  onSubmitted: (_) => login(),
                 ),
               ),
               FlatButton(
                 child: Text('Login'),
-                onPressed: () {
-                  _auth.add(LoginEvent(_id.text, _password.text));
-                },
+                onPressed: login,
               )
             ],
           ),
