@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 Handler mustBeAuth(HandlerFunc handler) {
   return Handler(handlerFunc: (ctxt, prms) {
     var app = Provider.of<Application>(ctxt);
-    if (app.me == null) {
+    if (app.token == null) {
       return Login();
     }
     return handler(ctxt, prms);
@@ -16,6 +16,5 @@ Handler mustBeAuth(HandlerFunc handler) {
 }
 
 var rootHandler = mustBeAuth((ctxt, prms) => Counter());
-// Handler(handlerFunc: (ctxt, prms) => Counter());
 var testHandler = mustBeAuth((ctxt, prms) => Test());
 var loginHandler = Handler(handlerFunc: (ctxt, prms) => Login());

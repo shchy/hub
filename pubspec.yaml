@@ -29,6 +29,7 @@ dependencies:
   fluro:
     git: git://github.com/theyakka/fluro.git
   provider: ^4.0.0
+  jaguar_jwt: ^2.1.6
     
 dev_dependencies:
   flutter_test:

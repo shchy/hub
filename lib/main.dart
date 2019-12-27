@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mm/app.dart';
-import 'package:mm/di/container.dart';
+import 'package:mm/di/bootstrap.dart';
 import 'package:mm/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(DIContainer().provide(App()));
+  runApp(Bootstrap().provide(App()));
 }
 
 class App extends StatelessWidget {
