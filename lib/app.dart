@@ -6,19 +6,19 @@ import 'models/user.dart';
 
 class Application {
   String _token;
-  User _me;
-
-  Application();
-
-  User get me => _me;
   String get token => _token;
+  User _me;
+  User get me => _me;
 
   set token(String token) {
     if (token == null) {
       clear();
       return;
     }
-    var payload = token.split('.')[1];
+    var tokens = token.split('.');
+    if (tokens.length != 3) return;
+
+    var payload = tokens[1];
     var jwt = B64urlEncRfc7515.decodeUtf8(payload);
     var map = jsonDecode(jwt);
     _me = User(id: map['sub'], name: map['iss']);

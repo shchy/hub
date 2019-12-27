@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:mm/app.dart';
 import 'package:mm/resources/api_interface.dart';
+import 'package:mm/resources/data_context.dart';
 
 abstract class AuthEvent {}
 
@@ -14,10 +14,10 @@ class LoginEvent implements AuthEvent {
 class LogoutEvent implements AuthEvent {}
 
 class AuthBloc extends Bloc<AuthEvent, bool> {
-  final LocalStorage storage = new LocalStorage('auth');
   ApiInterface _api;
   Application _app;
-  AuthBloc(this._api, this._app);
+  IDataContext _dataContext;
+  AuthBloc(this._api, this._app, this._dataContext);
 
   @override
   bool get initialState => false;
@@ -32,13 +32,13 @@ class AuthBloc extends Bloc<AuthEvent, bool> {
           yield false;
         } else {
           _app.token = token;
-          await storage.setItem('token', token);
+          await _dataContext.setToken(token);
           yield true;
         }
         break;
       case LogoutEvent:
         _app.clear();
-        await storage.deleteItem('token');
+        await _dataContext.setToken(null);
         yield false;
         break;
     }

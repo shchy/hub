@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mm/bloc/authbloc.dart';
 import 'package:mm/bloc/counterbloc.dart';
 import 'package:mm/routes/routes.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,8 @@ import 'package:provider/provider.dart';
 class CounterCommands extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // ignore: close_sinks
+    final AuthBloc _authBloc = Provider.of<AuthBloc>(context);
     // ignore: close_sinks
     final CounterBlocInterface counterBloc =
         BlocProvider.of<CounterBlocInterface>(context);
@@ -44,6 +47,17 @@ class CounterCommands extends StatelessWidget {
             child: Icon(Icons.router),
             onPressed: () {
               router.navigateTo(context, Routes.test);
+            },
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 5.0),
+          child: FloatingActionButton(
+            heroTag: 'logout',
+            child: Icon(Icons.exit_to_app),
+            onPressed: () {
+              _authBloc.add(LogoutEvent());
+              router.navigateTo(context, Routes.login);
             },
           ),
         ),
