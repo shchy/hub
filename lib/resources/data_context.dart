@@ -1,4 +1,4 @@
-import 'package:localstorage/localstorage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IDataContext {
   Future<String> getToken();
@@ -6,17 +6,18 @@ abstract class IDataContext {
 }
 
 class DataContext implements IDataContext {
-  final LocalStorage storage = new LocalStorage('auth');
-
   @override
   Future<String> getToken() async {
-    await storage.ready;
-    return storage.getItem('token');
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    print(token);
+    return token;
   }
 
   @override
   Future<void> setToken(String token) async {
-    await storage.ready;
-    return storage.setItem('token', token);
+    var prefs = await SharedPreferences.getInstance();
+    print(token);
+    return prefs.setString('token', token);
   }
 }
