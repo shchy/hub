@@ -35,19 +35,15 @@ class Bootstrap {
 
     return MultiProvider(
       providers: [
-        Provider<Application>(
-          create: (context) => app,
-        ),
-        Provider<IDataContext>(create: (context) => dataContext),
-        Provider<Router>(create: (context) => router),
-        BlocProvider<CounterBlocInterface>(create: (context) => CounterBloc()),
-        BlocProvider<AuthBloc>(create: (context) {
+        Provider<Application>(create: (_) => app),
+        Provider<IDataContext>(create: (_) => dataContext),
+        Provider<Router>(create: (_) => router),
+        Provider<ApiInterface>(create: (_) => api),
+        BlocProvider<CounterBlocInterface>(create: (_) => CounterBloc()),
+        BlocProvider<AuthBloc>(create: (_) {
           var authBloc = AuthBloc(api, app, dataContext);
           return authBloc;
         }),
-        Provider<ApiInterface>(
-          create: (context) => api,
-        )
       ],
       child: root,
     );
