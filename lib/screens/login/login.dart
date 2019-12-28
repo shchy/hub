@@ -30,13 +30,10 @@ class LoginState extends State<Login> {
     // ignore: close_sinks
     AuthBloc _auth = Provider.of<AuthBloc>(context);
 
-    _auth.listen((isLogin) {
-      if (!isLogin) return;
-      _router.navigateTo(context, Routes.root);
-    });
-
     var login = () {
+      print('login');
       _auth.add(LoginEvent(_id.text, _password.text));
+      _router.navigateTo(context, Routes.root);
     };
 
     return Scaffold(
