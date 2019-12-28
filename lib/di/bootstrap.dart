@@ -8,7 +8,7 @@ import 'package:mm/bloc/counterbloc.dart';
 import 'package:mm/resources/data_context.dart';
 import 'package:mm/resources/api.dart';
 import 'package:mm/resources/api_interface.dart';
-import 'package:mm/resources/debug_server.dart';
+import 'package:mm/resources/debug_server/server.dart';
 import 'package:mm/routes/routes.dart';
 import 'package:provider/provider.dart';
 
