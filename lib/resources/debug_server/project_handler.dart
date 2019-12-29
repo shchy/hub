@@ -5,6 +5,7 @@ import 'package:mm/models/budget.dart';
 import 'package:mm/models/iteration.dart';
 import 'package:mm/models/project.dart';
 import 'package:mm/models/task.dart';
+import 'package:mm/models/task_state.dart';
 import 'package:mm/models/user.dart';
 import 'package:mm/resources/api_service.dart';
 
@@ -17,7 +18,8 @@ class ProjectHandler extends DebugHandler {
       10,
       (i) {
         var users = List.generate(3, (id) => User('$id', 'name_$id'));
-        var tasks = List.generate(9, (id) => Task(id, 'name_$id'));
+        var tasks = List.generate(
+            9, (id) => Task(id, 'name_$id', TaskState.created, null));
         var budgets = List.generate(3, (id) => Budget(id, 'name_$id'));
         var iterations = List.generate(
             3,

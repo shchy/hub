@@ -1,8 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mm/bloc/authbloc.dart';
-import 'package:mm/bloc/counterbloc.dart';
+import 'package:mm/bloc/auth_bloc.dart';
+import 'package:mm/bloc/counter_bloc.dart';
 import 'package:mm/routes/routes.dart';
 import 'package:provider/provider.dart';
 

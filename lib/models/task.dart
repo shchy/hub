@@ -11,7 +11,7 @@ class Task {
   TaskState state;
   User assign;
 
-  Task(this.id, this.name);
+  Task(this.id, this.name, this.state, this.assign);
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
   Map<String, dynamic> toJson() => _$TaskToJson(this);

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:mm/app.dart';
-import 'package:mm/bloc/authbloc.dart';
+import 'package:mm/bloc/auth_bloc.dart';
 
-import 'package:mm/bloc/counterbloc.dart';
+import 'package:mm/bloc/counter_bloc.dart';
 import 'package:mm/bloc/project_bloc.dart';
 import 'package:mm/resources/data_context.dart';
 import 'package:mm/resources/api_service.dart';

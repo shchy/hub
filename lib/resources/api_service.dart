@@ -23,7 +23,8 @@ class ApiService implements ApiInterface {
     var response = _get(project_path);
     return response
         .then(json.decode)
-        .then((x) => (x as List).map((item) => Project.fromJson(item)));
+        .then((x) => (x as List).map((item) => Project.fromJson(item)))
+        .catchError((e) => print(e));
   }
 
   Future<String> _get(String url) async {

@@ -10,11 +10,11 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
   return Task(
     json['id'] as int,
     json['name'] as String,
-  )
-    ..state = _$enumDecodeNullable(_$TaskStateEnumMap, json['state'])
-    ..assign = json['assign'] == null
+    _$enumDecodeNullable(_$TaskStateEnumMap, json['state']),
+    json['assign'] == null
         ? null
-        : User.fromJson(json['assign'] as Map<String, dynamic>);
+        : User.fromJson(json['assign'] as Map<String, dynamic>),
+  );
 }
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
