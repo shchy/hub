@@ -26,16 +26,16 @@ class Bootstrap {
     var router = Router();
     Routes.configure(router);
 
+    // global state
+    var app = Application();
+
     // api service
     ApiInterface api;
     if (isDebug) {
-      api = ApiService(mockClient);
+      api = ApiService(mockClient, app);
     } else {
-      api = ApiService(Client());
+      api = ApiService(Client(), app);
     }
-
-    // global state
-    var app = Application();
 
     // DB
     IDataContext dataContext = DataContext();

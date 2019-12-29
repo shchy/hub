@@ -12,9 +12,10 @@ List<DebugHandler> _routeList = [
 var mockClient = MockClient((req) async {
   var findIt = _routeList.firstWhere((r) => r.isMatch(req), orElse: () => null);
   if (findIt == null) {
-    print('debug server: routing not found ${req.method} ${req.url}');
+    print('debug server:\trouting not found ${req.method} ${req.url}');
     return Response(null, 404);
   }
-  print('debug server: routing ${req.method} ${req.url} ${findIt.runtimeType}');
+  print(
+      "debug server:\trouting ${req.method} ${req.url} ${findIt.runtimeType} \n\t\theaders=${req.headers}");
   return findIt.handler(req);
 });

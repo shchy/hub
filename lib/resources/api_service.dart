@@ -3,13 +3,15 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:mm/models/project.dart';
 import 'package:mm/resources/api_interface.dart';
+import 'package:mm/app.dart';
 
 class ApiService implements ApiInterface {
   static const String auth_path = '/api/v1/auth';
   static const String project_path = '/api/v1/project';
 
   Client _client;
-  ApiService(this._client);
+  Application _app;
+  ApiService(this._client, this._app);
 
   @override
   Future<String> login(String id, String password) {
@@ -25,7 +27,12 @@ class ApiService implements ApiInterface {
   }
 
   Future<String> _get(String url) async {
-    var response = await _client.get(project_path);
+    Map<String, String> headers = {};
+    _addAuthHeader(headers);
+    var response = await _client.get(
+      project_path,
+      headers: headers,
+    );
     var isOK = 200 <= response.statusCode && response.statusCode <= 299;
     if (!isOK) {
       var log = 'http error url=$url code=${response.statusCode}';
@@ -36,9 +43,10 @@ class ApiService implements ApiInterface {
   }
 
   Future<String> _postJson(String url, Map content) async {
+    var headers = {"Content-Type": "application/json"};
+    _addAuthHeader(headers);
     var response = await _client.post(auth_path,
-        body: json.encode(content),
-        headers: {"Content-Type": "application/json"});
+        body: json.encode(content), headers: headers);
     var isOK = 200 <= response.statusCode && response.statusCode <= 299;
     if (!isOK) {
       var log = 'http error url=$url code=${response.statusCode}';
@@ -46,5 +54,10 @@ class ApiService implements ApiInterface {
       throw log;
     }
     return response.body;
+  }
+
+  void _addAuthHeader(Map<String, String> headers) {
+    if (_app.token == null) return;
+    headers['Authorization'] = 'Bearer ${_app.token}';
   }
 }

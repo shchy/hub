@@ -15,7 +15,7 @@ class CreateEvent implements ProjectEvent {
 class ProjectBloc extends Bloc<ProjectEvent, Iterable<Project>> {
   ApiInterface _api;
   ProjectBloc(this._api) {
-    Stream.periodic(Duration(seconds: 1)).listen((_) => this.add(GetEvent()));
+    Stream.periodic(Duration(seconds: 15)).listen((_) => this.add(GetEvent()));
   }
 
   @override
