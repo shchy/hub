@@ -1,13 +1,22 @@
 import 'package:http/http.dart';
 
-abstract class DebugHandler {
-  String method;
-  String path;
+typedef bool IsMatch(Request req);
+typedef Response Handler(Request req);
+var matchPath = (String path) => (Request req) => req.url.path.startsWith(path);
 
-  bool isMatch(Request req) {
-    return method == null ||
-        req.method == method && req.url.path.startsWith(path);
+abstract class DebugHandler {
+  IsMatch _isMatch;
+  Map<String, Handler> _handlers;
+  DebugHandler(this._isMatch) {
+    this._handlers = makeHandlers();
   }
 
-  Response handler(Request req);
+  Map<String, Handler> makeHandlers();
+
+  bool isMatch(Request req) {
+    if (!_isMatch(req)) return false;
+    return _handlers.containsKey(req.method);
+  }
+
+  Response handler(Request req) => _handlers[req.method](req);
 }

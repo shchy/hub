@@ -31,7 +31,6 @@ class LoginState extends State<Login> {
     AuthBloc _auth = Provider.of<AuthBloc>(context);
 
     var login = () {
-      print('login');
       _auth.add(LoginEvent(_id.text, _password.text));
       _router.navigateTo(context, Routes.root);
     };

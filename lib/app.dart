@@ -21,7 +21,7 @@ class Application {
     var payload = tokens[1];
     var jwt = B64urlEncRfc7515.decodeUtf8(payload);
     var map = jsonDecode(jwt);
-    _me = User(id: map['sub'], name: map['iss']);
+    _me = User(map['sub'], map['iss']);
     _token = token;
   }
 
