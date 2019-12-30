@@ -15,7 +15,7 @@ class ProjectHandler extends DebugHandler {
   List<Project> _project;
   ProjectHandler() : super(matchPath(ApiService.project_path)) {
     _project = List.generate(
-      10,
+      100,
       (i) {
         var users = List.generate(3, (id) => User('$id', 'name_$id'));
         var tasks = List.generate(
