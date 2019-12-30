@@ -32,7 +32,7 @@ class LoginState extends State<Login> {
 
     var login = () {
       _auth.add(LoginEvent(_id.text, _password.text));
-      _router.navigateTo(context, Routes.root);
+      _router.navigateTo(context, Routes.root, replace: true);
     };
 
     return Scaffold(

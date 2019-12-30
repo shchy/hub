@@ -46,7 +46,7 @@ class CounterCommands extends StatelessWidget {
             heroTag: 'test',
             child: Icon(Icons.router),
             onPressed: () {
-              router.navigateTo(context, Routes.test);
+              router.navigateTo(context, Routes.test, replace: true);
             },
           ),
         ),
@@ -57,7 +57,7 @@ class CounterCommands extends StatelessWidget {
             child: Icon(Icons.exit_to_app),
             onPressed: () {
               _authBloc.add(LogoutEvent());
-              router.navigateTo(context, Routes.login);
+              router.navigateTo(context, Routes.login, replace: true);
             },
           ),
         ),
