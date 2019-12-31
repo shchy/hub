@@ -13,8 +13,7 @@ class ProjectView extends StatelessWidget {
         elevation: 0.0,
       ),
       drawer: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: SideMenu(),
+        child: Drawer(child: SideMenu()),
       ),
       body: ProjectContent(),
     );

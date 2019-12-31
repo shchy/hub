@@ -20,7 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, bool> {
   AuthBloc(this._api, this._app, this._dataContext);
 
   @override
-  bool get initialState => false;
+  bool get initialState => _app.token != null;
 
   @override
   Stream<bool> mapEventToState(AuthEvent event) async* {
