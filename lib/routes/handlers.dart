@@ -2,8 +2,6 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mm/app.dart';
 import 'package:mm/bloc/auth_bloc.dart';
-import 'package:mm/resources/api_interface.dart';
-import 'package:mm/routes/routes.dart';
 import 'package:mm/screens/counter/counter_view.dart';
 import 'package:mm/screens/login/login_view.dart';
 import 'package:mm/screens/project/project_view.dart';

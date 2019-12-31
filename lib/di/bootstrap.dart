@@ -33,7 +33,6 @@ class Bootstrap {
     // ignore: close_sinks
     AuthBloc authBloc;
     var logout = () {
-      print('logout');
       authBloc.add(LogoutEvent());
     };
     Client client;
