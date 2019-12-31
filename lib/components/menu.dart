@@ -26,13 +26,12 @@ class SideMenu extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.message),
           title: Text('Projects'),
-          onTap: () {
-            router.navigateTo(context, Routes.test, replace: true);
-          },
+          onTap: () => router.navigateTo(context, Routes.test, replace: true),
         ),
         ListTile(
-          leading: Icon(Icons.account_circle),
-          title: Text('Profile'),
+          leading: Icon(Icons.home),
+          title: Text('Home'),
+          onTap: () => router.navigateTo(context, Routes.root, replace: true),
         ),
         ListTile(
           leading: Icon(Icons.settings),
