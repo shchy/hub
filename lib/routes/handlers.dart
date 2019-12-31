@@ -4,7 +4,7 @@ import 'package:mm/app.dart';
 import 'package:mm/bloc/auth_bloc.dart';
 import 'package:mm/screens/counter/counter_view.dart';
 import 'package:mm/screens/login/login_view.dart';
-import 'package:mm/screens/project/project_view.dart';
+import 'package:mm/screens/project/project_list_view.dart';
 import 'package:provider/provider.dart';
 
 HandlerFunc mustBeAuth(HandlerFunc handler) {
@@ -29,6 +29,6 @@ HandlerFunc unauthorized(HandlerFunc handler) {
 var rootHandler = Handler(
     handlerFunc: unauthorized(mustBeAuth((ctxt, prms) => CounterView())));
 var testHandler = Handler(
-    handlerFunc: unauthorized(mustBeAuth((ctxt, prms) => ProjectView())));
+    handlerFunc: unauthorized(mustBeAuth((ctxt, prms) => ProjectListView())));
 var loginHandler =
     Handler(handlerFunc: unauthorized((ctxt, prms) => LoginView()));

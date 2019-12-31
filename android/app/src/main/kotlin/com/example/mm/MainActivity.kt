@@ -1,4 +1,4 @@
-package com.example.mm
+package com.shch.mm
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
