@@ -25,7 +25,7 @@ class ProjectBloc extends Bloc<ProjectEvent, Iterable<Project>> {
   Stream<Iterable<Project>> mapEventToState(ProjectEvent event) async* {
     switch (event.runtimeType) {
       case GetEvent:
-        yield await _api.getProjects();
+        yield await _api.getProjects().catchError(() => []);
         break;
     }
   }

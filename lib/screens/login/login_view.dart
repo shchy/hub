@@ -4,16 +4,16 @@ import 'package:mm/bloc/auth_bloc.dart';
 import 'package:mm/routes/routes.dart';
 import 'package:provider/provider.dart';
 
-class Login extends StatefulWidget {
-  Login({Key key}) : super(key: key);
+class LoginView extends StatefulWidget {
+  LoginView({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return LoginState();
+    return LoginViewState();
   }
 }
 
-class LoginState extends State<Login> {
+class LoginViewState extends State<LoginView> {
   final _id = TextEditingController();
   final _password = TextEditingController();
 

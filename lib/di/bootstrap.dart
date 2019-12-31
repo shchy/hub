@@ -30,18 +30,27 @@ class Bootstrap {
     var app = Application();
 
     // api service
-    ApiInterface api;
+    // ignore: close_sinks
+    AuthBloc authBloc;
+    var logout = () {
+      print('logout');
+      authBloc.add(LogoutEvent());
+    };
+    Client client;
     if (isDebug) {
-      api = ApiService(mockClient, app);
+      client = mockClient;
     } else {
-      api = ApiService(Client(), app);
+      client = Client();
     }
+    ApiInterface api = ApiService(client, app, logout);
 
     // DB
     IDataContext dataContext = DataContext();
 
     // auth token
     app.token = await dataContext.getToken();
+
+    authBloc = AuthBloc(api, app, dataContext);
 
     // injection
     return MultiProvider(
@@ -51,7 +60,7 @@ class Bootstrap {
         Provider<Router>(create: (_) => router),
         Provider<ApiInterface>(create: (_) => api),
         BlocProvider<CounterBlocInterface>(create: (_) => CounterBloc()),
-        BlocProvider<AuthBloc>(create: (_) => AuthBloc(api, app, dataContext)),
+        BlocProvider<AuthBloc>(create: (_) => authBloc),
         BlocProvider<ProjectBloc>(create: (_) => ProjectBloc(api)),
       ],
       child: root,

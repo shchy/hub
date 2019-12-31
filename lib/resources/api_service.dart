@@ -9,9 +9,10 @@ class ApiService implements ApiInterface {
   static const String auth_path = '/api/v1/auth';
   static const String project_path = '/api/v1/project';
 
+  Function _logout;
   Client _client;
   Application _app;
-  ApiService(this._client, this._app);
+  ApiService(this._client, this._app, this._logout);
 
   @override
   Future<String> login(String id, String password) {
@@ -23,35 +24,30 @@ class ApiService implements ApiInterface {
     var response = _get(project_path);
     return response
         .then(json.decode)
-        .then((x) => (x as List).map((item) => Project.fromJson(item)))
-        .catchError((e) => print(e));
+        .then((x) => (x as List).map((item) => Project.fromJson(item)));
   }
 
   Future<String> _get(String url) async {
     Map<String, String> headers = {};
     _addAuthHeader(headers);
-    var response = await _client.get(
-      project_path,
-      headers: headers,
-    );
-    var isOK = 200 <= response.statusCode && response.statusCode <= 299;
-    if (!isOK) {
-      var log = 'http error url=$url code=${response.statusCode}';
-      print(log);
-      throw log;
-    }
-    return response.body;
+    return _client.get(project_path, headers: headers).then(_takeBody);
   }
 
   Future<String> _postJson(String url, Map content) async {
     var headers = {"Content-Type": "application/json"};
     _addAuthHeader(headers);
-    var response = await _client.post(auth_path,
-        body: json.encode(content), headers: headers);
+    return _client
+        .post(auth_path, body: json.encode(content), headers: headers)
+        .then(_takeBody);
+  }
+
+  String _takeBody(Response response) {
     var isOK = 200 <= response.statusCode && response.statusCode <= 299;
     if (!isOK) {
-      var log = 'http error url=$url code=${response.statusCode}';
+      var log =
+          'http error url=${response.request.url} code=${response.statusCode}';
       print(log);
+      if (response.statusCode == 401) _logout();
       throw log;
     }
     return response.body;

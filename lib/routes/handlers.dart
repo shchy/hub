@@ -1,20 +1,36 @@
 import 'package:fluro/fluro.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mm/app.dart';
-import 'package:mm/screens/counter/counter.dart';
-import 'package:mm/screens/login/login.dart';
-import 'package:mm/screens/project/project.dart';
+import 'package:mm/bloc/auth_bloc.dart';
+import 'package:mm/resources/api_interface.dart';
+import 'package:mm/routes/routes.dart';
+import 'package:mm/screens/counter/counter_view.dart';
+import 'package:mm/screens/login/login_view.dart';
+import 'package:mm/screens/project/project_view.dart';
 import 'package:provider/provider.dart';
 
-Handler mustBeAuth(HandlerFunc handler) {
-  return Handler(handlerFunc: (ctxt, prms) {
+HandlerFunc mustBeAuth(HandlerFunc handler) {
+  return (ctxt, prms) {
     var app = Provider.of<Application>(ctxt);
     if (app.token == null) {
-      return Login();
+      return LoginView();
     }
     return handler(ctxt, prms);
-  });
+  };
 }
 
-var rootHandler = mustBeAuth((ctxt, prms) => Counter());
-var testHandler = mustBeAuth((ctxt, prms) => ProjectView());
-var loginHandler = Handler(handlerFunc: (ctxt, prms) => Login());
+HandlerFunc unauthorized(HandlerFunc handler) {
+  return (context, prms) {
+    return BlocBuilder<AuthBloc, bool>(builder: (context, isLogin) {
+      if (!isLogin) return LoginView();
+      return handler(context, prms);
+    });
+  };
+}
+
+var rootHandler = Handler(
+    handlerFunc: unauthorized(mustBeAuth((ctxt, prms) => CounterView())));
+var testHandler = Handler(
+    handlerFunc: unauthorized(mustBeAuth((ctxt, prms) => ProjectView())));
+var loginHandler =
+    Handler(handlerFunc: unauthorized((ctxt, prms) => LoginView()));
