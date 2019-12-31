@@ -6,3 +6,5 @@ flutter clean
 cd ios
 pod install
 flutter build ios --release
+
+open ios/Runner.xcworkspace 
