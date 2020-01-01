@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:mm/bloc/auth_bloc.dart';
 import 'package:mm/models/project.dart';
 import 'package:mm/resources/api_interface.dart';
-import 'package:mm/app.dart';
 
 class ApiService implements ApiInterface {
   static const String auth_path = '/api/v1/auth';
   static const String project_path = '/api/v1/project';
 
+  AuthState Function() _getAuthState;
   Function _logout;
   Client _client;
-  Application _app;
-  ApiService(this._client, this._app, this._logout);
+  ApiService(this._client, this._logout, this._getAuthState);
 
   @override
   Future<String> login(String id, String password) {
@@ -54,7 +54,8 @@ class ApiService implements ApiInterface {
   }
 
   void _addAuthHeader(Map<String, String> headers) {
-    if (_app.token == null) return;
-    headers['Authorization'] = 'Bearer ${_app.token}';
+    var state = _getAuthState();
+    if (state is! LoggedIn) return;
+    headers['Authorization'] = 'Bearer ${(state as LoggedIn).token}';
   }
 }

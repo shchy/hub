@@ -2,7 +2,6 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
-import 'package:mm/app.dart';
 import 'package:mm/bloc/auth_bloc.dart';
 
 import 'package:mm/bloc/counter_bloc.dart';
@@ -26,35 +25,30 @@ class Bootstrap {
     var router = Router();
     Routes.configure(router);
 
-    // global state
-    var app = Application();
-
     // api service
-    // ignore: close_sinks
-    AuthBloc authBloc;
-    var logout = () {
-      authBloc.add(LogoutEvent());
-    };
     Client client;
     if (isDebug) {
       client = mockClient;
     } else {
       client = Client();
     }
-    ApiInterface api = ApiService(client, app, logout);
+    // ignore: close_sinks
+    AuthBloc authBloc;
+    var logout = () => authBloc.add(LogoutEvent());
+    var getAuthState = () => authBloc.state;
+    ApiInterface api = ApiService(client, logout, getAuthState);
 
     // DB
     IDataContext dataContext = DataContext();
 
     // auth token
-    app.token = await dataContext.getToken();
+    var token = await dataContext.getToken();
 
-    authBloc = AuthBloc(api, app, dataContext);
+    authBloc = AuthBloc(api, dataContext, token);
 
     // injection
     return MultiProvider(
       providers: [
-        Provider<Application>(create: (_) => app),
         Provider<IDataContext>(create: (_) => dataContext),
         Provider<Router>(create: (_) => router),
         Provider<ApiInterface>(create: (_) => api),

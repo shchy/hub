@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
-import 'package:mm/app.dart';
+import 'package:jaguar_jwt/jaguar_jwt.dart';
+import 'package:mm/models/user.dart';
 import 'package:mm/resources/api_interface.dart';
 import 'package:mm/resources/data_context.dart';
 
@@ -13,34 +16,76 @@ class LoginEvent implements AuthEvent {
 
 class LogoutEvent implements AuthEvent {}
 
-class AuthBloc extends Bloc<AuthEvent, bool> {
+abstract class AuthState {
+  bool get isLogin;
+}
+
+class NotLogin implements AuthState {
+  @override
+  bool get isLogin => false;
+}
+
+class LoggedIn implements AuthState {
+  @override
+  bool get isLogin => true;
+  String token;
+  User me;
+  LoggedIn(this.token, this.me);
+}
+
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ApiInterface _api;
-  Application _app;
   IDataContext _dataContext;
-  AuthBloc(this._api, this._app, this._dataContext);
+  String _token;
+  AuthBloc(this._api, this._dataContext, this._token);
 
   @override
-  bool get initialState => _app.token != null;
+  AuthState get initialState => _tokenToState(_token);
 
   @override
-  Stream<bool> mapEventToState(AuthEvent event) async* {
+  Stream<AuthState> mapEventToState(AuthEvent event) async* {
+    AuthState next = NotLogin();
     switch (event.runtimeType) {
       case LoginEvent:
         var login = event as LoginEvent;
         var token = await _api.login(login.id, login.password);
-        if (token == null) {
-          yield false;
+        next = _tokenToState(token);
+
+        if (!next.isLogin) {
+          await _dataContext.setToken(null);
         } else {
-          _app.token = token;
-          await _dataContext.setToken(token);
-          yield true;
+          await _dataContext.setToken((next as LoggedIn).token);
         }
+        yield next;
         break;
       case LogoutEvent:
-        _app.clear();
         await _dataContext.setToken(null);
-        yield false;
+        yield next;
         break;
     }
+  }
+
+  AuthState _tokenToState(String token) {
+    var user = _tokenToUser(token);
+    if (user == null) {
+      return NotLogin();
+    } else {
+      return LoggedIn(token, user);
+    }
+  }
+
+  User _tokenToUser(String token) {
+    if (token == null) {
+      return null;
+    }
+    var tokens = token.split('.');
+    if (tokens.length != 3) {
+      return null;
+    }
+
+    var payload = tokens[1];
+    var jwt = B64urlEncRfc7515.decodeUtf8(payload);
+    var map = jsonDecode(jwt);
+    return User(map['sub'], map['iss']);
   }
 }
