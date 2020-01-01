@@ -12,7 +12,7 @@ class ProjectListView extends StatelessWidget {
         title: Text('test'),
         elevation: 0.0,
       ),
-      drawer: GestureDetector(
+      drawer: SafeArea(
         child: Drawer(child: SideMenu()),
       ),
       body: ProjectListContent(),

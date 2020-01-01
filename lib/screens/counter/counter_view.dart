@@ -14,7 +14,7 @@ class CounterView extends StatelessWidget {
           title: Text(title),
           elevation: 0.0,
         ),
-        drawer: GestureDetector(
+        drawer: SafeArea(
           child: Drawer(child: SideMenu()),
         ),
         body: CounterContent(),
