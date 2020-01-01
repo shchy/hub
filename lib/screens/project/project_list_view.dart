@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mm/components/app_bar.dart';
 import 'package:mm/components/menu.dart';
 import 'package:mm/screens/project/project_list_content.dart';
 
@@ -8,10 +9,7 @@ class ProjectListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('test'),
-        elevation: 0.0,
-      ),
+      appBar: MyAppBar('Project List'),
       drawer: SafeArea(
         child: Drawer(child: SideMenu()),
       ),

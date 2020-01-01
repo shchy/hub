@@ -5,6 +5,7 @@ import 'package:mm/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  // debugPaintSizeEnabled = true;
   var boot = await Bootstrap().provide(App());
   runApp(boot);
 }
@@ -24,6 +25,7 @@ class App extends StatelessWidget {
       theme: AppTheme.defaultTheme,
       onGenerateRoute: _generator,
       debugShowCheckedModeBanner: false,
+      // showPerformanceOverlay: true,
     );
   }
 }
