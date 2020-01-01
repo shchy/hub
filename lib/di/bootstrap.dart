@@ -45,6 +45,8 @@ class Bootstrap {
     var token = await dataContext.getToken();
 
     authBloc = AuthBloc(api, dataContext, token);
+    // ignore: close_sinks
+    var projectBloc = ProjectBloc(api);
 
     // injection
     return MultiProvider(
@@ -54,7 +56,7 @@ class Bootstrap {
         Provider<ApiInterface>(create: (_) => api),
         BlocProvider<CounterBlocInterface>(create: (_) => CounterBloc()),
         BlocProvider<AuthBloc>(create: (_) => authBloc),
-        BlocProvider<ProjectBloc>(create: (_) => ProjectBloc(api)),
+        BlocProvider<ProjectBloc>(create: (_) => projectBloc),
       ],
       child: root,
     );

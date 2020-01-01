@@ -13,10 +13,16 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Router _router = Provider.of<Router>(context);
+
+    var _generator = (RouteSettings routeSettings) {
+      print('path=${routeSettings.name}, prms=${routeSettings.arguments}');
+      return _router.generator(routeSettings);
+    };
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.defaultTheme,
-      onGenerateRoute: _router.generator,
+      onGenerateRoute: _generator,
       debugShowCheckedModeBanner: false,
     );
   }
