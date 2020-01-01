@@ -16,7 +16,10 @@ class Application {
       return;
     }
     var tokens = token.split('.');
-    if (tokens.length != 3) return;
+    if (tokens.length != 3) {
+      clear();
+      return;
+    }
 
     var payload = tokens[1];
     var jwt = B64urlEncRfc7515.decodeUtf8(payload);
