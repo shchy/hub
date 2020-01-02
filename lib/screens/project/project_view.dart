@@ -3,64 +3,61 @@ import 'package:mm/components/app_bar.dart';
 import 'package:mm/components/menu.dart';
 import 'package:mm/models/project.dart';
 
-class ProjectView extends StatelessWidget {
+import 'task_view.dart';
+
+class NavItem {
+  IconData icon;
+  String text;
+  Widget Function() makeWidget;
+  NavItem(this.icon, this.text, this.makeWidget);
+}
+
+class ProjectView extends StatefulWidget {
   final Project _project;
   ProjectView(this._project);
 
   @override
+  State<StatefulWidget> createState() {
+    return ProjectViewState([
+      NavItem(Icons.home, 'Home', () => TaskView(_project)),
+      NavItem(Icons.photo_album, 'photo_album', () => TaskView(_project)),
+      NavItem(Icons.chat, 'chat', () => TaskView(_project)),
+    ]);
+  }
+}
+
+class ProjectViewState extends State<ProjectView> {
+  int _currentIndex = 0;
+  Iterable<NavItem> _navs;
+  ProjectViewState(this._navs);
+
+  Widget _page(int index) {
+    if (_navs.length <= index) return Text('not registed widget index=$index');
+    return _navs.elementAt(index).makeWidget();
+  }
+
+  void _onItemTapped(int index) => setState(() => _currentIndex = index);
+
+  @override
   Widget build(BuildContext context) {
+    var items = _navs
+        .map((x) =>
+            BottomNavigationBarItem(icon: Icon(x.icon), title: Text(x.text)))
+        .toList();
+
     return Scaffold(
-      appBar: MyAppBar(_project.name),
+      appBar: MyAppBar(widget._project.name),
       drawer: SafeArea(
         child: Drawer(child: SideMenu()),
       ),
-      body: Container(
-        padding: EdgeInsets.all(6),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              color: Colors.blue,
-              child: Text(
-                _project.name,
-                style: Theme.of(context).primaryTextTheme.title,
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: Colors.red,
-                child: ListView.builder(
-                  itemCount: _project.tasks.length,
-                  itemBuilder: (context, index) {
-                    var item = _project.tasks.elementAt(index);
-                    return Text(item.name);
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+      body: _page(_currentIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: items,
+        currentIndex: _currentIndex,
+        fixedColor: Colors.blueAccent,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
       ),
-      // body: Container(
-      //   padding: EdgeInsets.all(6),
-      //   child: Column(
-      //     mainAxisSize: MainAxisSize.max,
-      //     children: <Widget>[
-      //       Text(
-      //         _project.name,
-      //         style: Theme.of(context).primaryTextTheme.title,
-      //       ),
-      //       ListView.builder(
-      //         itemCount: _project.tasks.length,
-      //         itemBuilder: (context, index) {
-      //           var item = _project.tasks.elementAt(index);
-      //           return Text(item.name);
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }
